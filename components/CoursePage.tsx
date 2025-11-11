@@ -1,5 +1,5 @@
 import React from 'react';
-import { YOUTUBE_VIDEO_IDS, YOUTUBE_VIDEO_TITLES } from '../constants';
+import { COURSE_VIDEOS } from '../constants';
 
 interface CoursePageProps {
   studentName: string;
@@ -55,18 +55,18 @@ const CoursePage: React.FC<CoursePageProps> = ({ studentName }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {YOUTUBE_VIDEO_IDS.map((videoId, index) => (
+        {COURSE_VIDEOS.map((video) => (
           <a
-            key={videoId + index}
-            href={`https://www.youtube.com/watch?v=${videoId}`}
+            key={video.id + video.title}
+            href={`https://www.youtube.com/watch?v=${video.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative block bg-brand-dark-800 rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105"
           >
             <img
-              src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-              alt={YOUTUBE_VIDEO_TITLES[index]}
-              className="w-full object-cover aspect-video"
+              src={video.imageUrl}
+              alt={video.title}
+              className="w-full h-full object-cover aspect-video"
             />
             
             {/* Gradient overlay for text readability */}
@@ -74,7 +74,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ studentName }) => {
             
             {/* Title at the bottom */}
             <div className="absolute bottom-0 left-0 p-4">
-              <h3 className="font-bold text-white">{YOUTUBE_VIDEO_TITLES[index] || `Aula ${index}`}</h3>
+              <h3 className="font-bold text-white">{video.title}</h3>
             </div>
 
             {/* Centered play icon on hover */}
