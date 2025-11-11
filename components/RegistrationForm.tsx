@@ -1,5 +1,5 @@
 
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { SCRIPT_URL } from '../constants';
 import { FormData } from '../types';
 
@@ -16,6 +16,30 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Load data from localStorage on initial render
+  useEffect(() => {
+    try {
+      const savedData = localStorage.getItem('registrationFormData');
+      if (savedData) {
+        setFormData(JSON.parse(savedData));
+      }
+    } catch (error) {
+      console.error('Failed to parse form data from localStorage', error);
+      // If parsing fails, it's safer to clear the stored data
+      localStorage.removeItem('registrationFormData');
+    }
+  }, []);
+
+  // Save data to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('registrationFormData', JSON.stringify(formData));
+    } catch (error) {
+      console.error('Failed to save form data to localStorage', error);
+    }
+  }, [formData]);
+
 
   const validateEmail = (email: string): boolean => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -80,6 +104,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
       // Com no-cors, não podemos verificar a resposta. Assumimos sucesso.
       setTimeout(() => {
         onSuccess({ name: formData.nome });
+        // Clear localStorage after successful submission
+        localStorage.removeItem('registrationFormData');
       }, 1000); // Simula um tempo de processamento
     } catch (error) {
       console.error('Fetch error:', error);
