@@ -125,7 +125,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
             {errors.nome && <p className="text-red-400 text-sm mt-1">{errors.nome}</p>}
           </div>
           <div>
-            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="voce@empresa.com" required className="w-full bg-slate-900 border border-slate-700 text-white rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-amber-500" />
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="voce@dominio.com" required className="w-full bg-slate-900 border border-slate-700 text-white rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-amber-500" />
             {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
           </div>
           <div>
