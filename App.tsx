@@ -6,7 +6,6 @@ import CoursePage from './components/CoursePage';
 type Page = 'landing' | 'course';
 
 const App: React.FC = () => {
-  // Função para determinar o estado inicial com base no localStorage
   const getInitialState = () => {
     try {
       const isRegistered = localStorage.getItem('isRegistered') === 'true';
@@ -22,7 +21,6 @@ const App: React.FC = () => {
       console.error("Failed to read from localStorage", error);
     }
     
-    // Estado padrão se não estiver registrado
     return {
       page: 'landing' as Page,
       data: { name: '' },
