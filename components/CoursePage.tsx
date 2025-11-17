@@ -1,5 +1,5 @@
 import React from 'react';
-import { COURSE_VIDEOS } from '../constants';
+import { COURSE_VIDEOS, MATERIAL_URL } from '../constants';
 
 interface CoursePageProps {
   studentName: string;
@@ -16,6 +16,18 @@ const PlayIcon: React.FC<{ className?: string }> = ({ className }) => (
     <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
   </svg>
+);
+
+const DocumentIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+);
+
+const ExternalLinkIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
 );
 
 
@@ -37,51 +49,77 @@ const CoursePage: React.FC<CoursePageProps> = ({ studentName }) => {
       </p>
 
       <div className="bg-brand-dark-800 p-6 rounded-lg mb-12 text-center max-w-3xl mx-auto border border-slate-700">
-        <h2 className="text-xl font-bold text-white mb-3">Sua Ferramenta de Trabalho: A Planilha Modelo</h2>
-        <p className="text-slate-300 mb-5">
-          Para acompanhar as aulas, você precisa da sua própria cópia da planilha. É simples:
+        <h2 className="text-xl font-bold text-white mb-3">Seus Materiais de Apoio</h2>
+        <p className="text-slate-300">
+          Para acompanhar as aulas, você precisa da sua própria cópia da planilha e do guia de fórmulas.
           <br />
-          <strong className="text-brand-amber-400">Clique no botão abaixo e, na página que abrir, vá em "Arquivo" &gt; "Fazer uma cópia".</strong>
+          <strong className="text-brand-amber-400">Para a planilha, clique em "Arquivo" &gt; "Fazer uma cópia" na página que abrir.</strong>
         </p>
-        <a 
-          href="https://docs.google.com/spreadsheets/d/1x-hsZ51gQB83S6q6uVhM0O5jp-r35XAFG_QBAuSB1Vc/edit?usp=sharing"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center bg-green-600 text-white font-bold py-3 px-6 rounded-md hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-brand-dark-800 focus:ring-green-500 transition-all duration-300"
-        >
-          <SheetIcon className="h-5 w-5 mr-2" />
-          ACESSAR PLANILHA MODELO
-        </a>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-5">
+            <a 
+              href="https://docs.google.com/spreadsheets/d/1x-hsZ51gQB83S6q6uVhM0O5jp-r35XAFG_QBAuSB1Vc/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center bg-green-600 text-white font-bold py-3 px-6 rounded-md hover:bg-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark-800 focus-visible:ring-green-500 transition-all duration-300"
+            >
+              <SheetIcon className="h-5 w-5 mr-2" />
+              ACESSAR PLANILHA MODELO
+            </a>
+            <a 
+              href={MATERIAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center border-2 border-brand-amber-500 text-brand-amber-500 font-bold py-3 px-6 rounded-md hover:bg-brand-amber-500 hover:text-brand-dark-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark-800 focus-visible:ring-brand-amber-500 transition-all duration-300"
+            >
+              <DocumentIcon className="h-5 w-5 mr-2" />
+              FÓRMULAS DO CURSO
+            </a>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {COURSE_VIDEOS.map((video) => (
-          <a
+          <div
             key={video.id + video.title}
-            href={`https://www.youtube.com/watch?v=${video.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative block bg-brand-dark-800 rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105"
+            className="group relative bg-brand-dark-800 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
           >
-            <img
-              src={video.imageUrl}
-              alt={video.title}
-              className="w-full h-full object-cover aspect-video"
-            />
+            <a
+              href={`https://www.youtube.com/watch?v=${video.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Assistir ${video.title}`}
+              className="block rounded-lg overflow-hidden"
+            >
+              <img
+                src={video.imageUrl}
+                alt={video.title}
+                className="w-full h-full object-cover aspect-video"
+              />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
+                <PlayIcon className="h-16 w-16 text-white" />
+              </div>
+            </a>
             
-            {/* Gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none rounded-lg"></div>
             
-            {/* Title at the bottom */}
-            <div className="absolute bottom-0 left-0 p-4">
-              <h3 className="font-bold text-white">{video.title}</h3>
+            <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center gap-2 pointer-events-none">
+              <h3 className="font-bold text-white flex-1">{video.title}</h3>
+              {video.materialUrl && (
+                  <a
+                    href={video.materialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/tooltip relative z-10 flex-shrink-0 inline-flex items-center justify-center p-2 rounded-full bg-brand-amber-500 text-brand-dark-900 hover:bg-brand-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-amber-400 transition-all duration-300 pointer-events-auto"
+                    aria-label={`Acessar material para ${video.title}`}
+                  >
+                    <ExternalLinkIcon className="h-5 w-5" />
+                    <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-1 text-xs font-semibold text-white bg-slate-700 rounded-md opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-opacity duration-300 pointer-events-none">
+                      Ver material
+                    </span>
+                  </a>
+              )}
             </div>
-
-            {/* Centered play icon on hover */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
-              <PlayIcon className="h-16 w-16 text-white" />
-            </div>
-          </a>
+          </div>
         ))}
       </div>
     </div>

@@ -33,7 +33,6 @@ const App: React.FC = () => {
 
   const handleRegistrationSuccess = (data: { name: string }) => {
     try {
-        // Salva o status de registro e o nome no localStorage
         localStorage.setItem('isRegistered', 'true');
         localStorage.setItem('studentName', data.name);
     } catch (error) {

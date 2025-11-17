@@ -17,7 +17,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Load data from localStorage on initial render
   useEffect(() => {
     try {
       const savedData = localStorage.getItem('registrationFormData');
@@ -26,12 +25,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
       }
     } catch (error) {
       console.error('Failed to parse form data from localStorage', error);
-      // If parsing fails, it's safer to clear the stored data
       localStorage.removeItem('registrationFormData');
     }
   }, []);
 
-  // Save data to localStorage whenever it changes
   useEffect(() => {
     try {
       localStorage.setItem('registrationFormData', JSON.stringify(formData));
@@ -101,12 +98,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
         },
         body: JSON.stringify(formData),
       });
-      // Com no-cors, não podemos verificar a resposta. Assumimos sucesso.
       setTimeout(() => {
         onSuccess({ name: formData.nome });
-        // Clear localStorage after successful submission
         localStorage.removeItem('registrationFormData');
-      }, 1000); // Simula um tempo de processamento
+      }, 1000); 
     } catch (error) {
       console.error('Fetch error:', error);
       setErrors({ form: 'Ocorreu um erro ao enviar. Tente novamente.' });
